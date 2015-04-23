@@ -15,7 +15,7 @@ end
 
 task :distribute do
 	dist_dir = "dist"
-	index_file = "#{dist}/index.html"
+	index_file = "#{dist_dir}/index.html"
 	master_access_key = ENV['master_access_key']
 	master_secret_key = ENV['master_secret_key']
 	if not File.exists? index_file
@@ -36,6 +36,5 @@ task :distribute do
 	if not success
 		raise "distribution failed on aws sync"
 	end
-	cmd_install = python_pypi_install_cmd
 	puts "distribution success to s3: #{s3_location}"
 end
