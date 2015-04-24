@@ -41,7 +41,8 @@ task :distribute do
 	puts "distribution success to s3: #{s3_location}"
 
 	# invalidate cloudfront
-	cmd_invalidate = "python scripts/invalidator.py --master_access_key #{master_access_key} --master_secret_key #{master_secret_key}"
+	puts "invalidating cloudfront"
+	cmd_invalidate = "cd scripts && python invalidator.py --master_access_key #{master_access_key} --master_secret_key #{master_secret_key}"
 	puts cmd_invalidate
 	success = system(cmd_invalidate)
 	if not success
