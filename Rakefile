@@ -48,6 +48,6 @@ task :distribute do
 	if not success
 		raise "distribution failed on cloudfront invalidate"
 	end
-	puts "cloudfront invalidation success"
+	puts "cloudfront invalidation successful"
 
 end
