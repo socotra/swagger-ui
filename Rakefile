@@ -27,6 +27,8 @@ task :distribute do
 	if master_secret_key.nil?
 		raise 'missing master_secret_key'
 	end
+
+	# publish
 	puts "publishing swagger-ui"
 	s3_location = "socotra-swagger-ui"
 	path_inject = "AWS_DEFAULT_REGION=\"eu-west-1\" AWS_ACCESS_KEY_ID=\"#{master_access_key}\" AWS_SECRET_ACCESS_KEY=\"#{master_secret_key}\" "
@@ -37,4 +39,14 @@ task :distribute do
 		raise "distribution failed on aws sync"
 	end
 	puts "distribution success to s3: #{s3_location}"
+
+	# invalidate cloudfront
+	cmd_invalidate = "python scripts/invalidator.py --master_access_key #{master_access_key} --master_secret_key #{master_secret_key}"
+	puts cmd_invalidate
+	success = system(cmd_invalidate)
+	if not success
+		raise "distribution failed on cloudfront invalidate"
+	end
+	puts "cloudfront invalidation success"
+
 end
